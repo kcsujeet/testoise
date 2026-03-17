@@ -5,7 +5,6 @@
   <p>
     <a href="https://github.com/sujeetkc1/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
     <a href="https://www.npmjs.com/package/testoise"><img src="https://img.shields.io/npm/v/testoise" alt="npm version" /></a>
-    <a href="https://github.com/sujeetkc1/testoise/actions"><img src="https://img.shields.io/github/actions/workflow/status/sujeetkc1/testoise/test.yml?branch=main" alt="Build Status" /></a>
   </p>
 </div>
 
