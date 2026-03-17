@@ -42,7 +42,7 @@ describe("User", () => {
 
 As your tests grow, this boilerplate becomes extremely repetitive and brittle. You end up redefining dependent variables multiple times.
 
-If you've ever worked with **Ruby and Rails**, you are likely intimately familiar with **RSpec** and its magical `let` helper, which solved this problem elegantly.
+If you've ever worked with **Ruby on Rails**, you are likely intimately familiar with **RSpec** and its magical `let` helper, which solved this problem elegantly.
 
 ## Our Solution: `testoise`
 
