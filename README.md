@@ -1,11 +1,11 @@
 <div align="center">
-  <h1>🦥 get-lazy-var</h1>
+  <h1>🐢 testoise</h1>
   <p><strong>A lightweight, global-free, TypeScript-first lazy variable library for modern JavaScript testing frameworks.</strong></p>
 
   <p>
-    <a href="https://github.com/sujeetkc1/get-lazy-var"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
-    <a href="https://www.npmjs.com/package/get-lazy-var"><img src="https://img.shields.io/npm/v/get-lazy-var" alt="npm version" /></a>
-    <a href="https://github.com/sujeetkc1/get-lazy-var/actions"><img src="https://img.shields.io/github/actions/workflow/status/sujeetkc1/get-lazy-var/test.yml?branch=main" alt="Build Status" /></a>
+    <a href="https://github.com/sujeetkc1/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
+    <a href="https://www.npmjs.com/package/testoise"><img src="https://img.shields.io/npm/v/testoise" alt="npm version" /></a>
+    <a href="https://github.com/sujeetkc1/testoise/actions"><img src="https://img.shields.io/github/actions/workflow/status/sujeetkc1/testoise/test.yml?branch=main" alt="Build Status" /></a>
   </p>
 </div>
 
@@ -42,9 +42,11 @@ describe("User", () => {
 
 As your tests grow, this boilerplate becomes extremely repetitive and brittle. You end up redefining dependent variables multiple times.
 
-## Our Solution: `get-lazy-var`
+If you've ever worked with **Ruby and Rails**, you are likely intimately familiar with **RSpec** and its magical `let` helper, which solved this problem elegantly.
 
-`get-lazy-var` provides a structured, reactive way to define context variables that:
+## Our Solution: `testoise`
+
+`testoise` brings the power and elegance of RSpec's `let` directly into the JavaScript testing ecosystem! It provides a structured, reactive way to define context variables that:
 1. **Evaluates Lazily**: Your variable factory is only executed when `get()` is called.
 2. **Caches Per Test**: The evaluated variable is cached for the duration of a single `it` block.
 3. **No Globals**: Explicit imports for `def` and `get` so your testing environment stays clean.
@@ -53,21 +55,21 @@ As your tests grow, this boilerplate becomes extremely repetitive and brittle. Y
 ## Installation
 
 ```bash
-bun add -d get-lazy-var
+bun add -d testoise
 # or
-npm install --save-dev get-lazy-var
+npm install --save-dev testoise
 # or
-pnpm add -D get-lazy-var
+pnpm add -D testoise
 ```
 
 ## Basic Usage
 
-Import `def` and `get` from your test runner's specific adapter path (`get-lazy-var/bun`, `get-lazy-var/vitest`, or `get-lazy-var/jest`).
+Import `def` and `get` from your test runner's specific adapter path (`testoise/bun`, `testoise/vitest`, or `testoise/jest`).
 
 ```ts
 // tests/basic.test.ts
 import { describe, expect, it } from "vitest"; // or "bun:test", "@jest/globals"
-import { def, get } from "get-lazy-var/vitest"; 
+import { def, get } from "testoise/vitest"; 
 
 describe("User", () => {
     def("firstName", () => "John");
@@ -95,7 +97,7 @@ describe("User", () => {
 
 ## Magic in UI Component Testing 🧪
 
-`get-lazy-var` shines brightest when testing UI components where you want to render the same component with slightly different props across numerous test cases.
+`testoise` shines brightest when testing UI components where you want to render the same component with slightly different props across numerous test cases.
 
 Instead of typing out verbose components every time you render, you can set them once, define your component lazily as a variable, and then override just the specific props you want per test.
 
@@ -165,17 +167,17 @@ describe("testing another user", () => {
 
 ### Vitest
 ```ts
-import { def, get } from "get-lazy-var/vitest";
+import { def, get } from "testoise/vitest";
 ```
 
 ### Bun
 ```ts
-import { def, get } from "get-lazy-var/bun";
+import { def, get } from "testoise/bun";
 ```
 
 ### Jest
 ```ts
-import { def, get } from "get-lazy-var/jest";
+import { def, get } from "testoise/jest";
 ```
 
 ## API Reference

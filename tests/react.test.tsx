@@ -13,7 +13,7 @@ const UserProfile = ({ username, age }: { username: string; age: number }) => {
 	);
 };
 
-describe("React Component with get-lazy-var", () => {
+describe("React Component with testoise", () => {
 	// Clean up after each test to unmount the React components
 	afterEach(() => {
 		cleanup();

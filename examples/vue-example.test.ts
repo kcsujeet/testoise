@@ -14,7 +14,7 @@ const UserProfile = defineComponent({
 	},
 });
 
-describe("Vue Component Testing with get-lazy-var", () => {
+describe("Vue Component Testing with testoise", () => {
 	// Define lazy variables for component props
 	def("username", () => "Guest");
 	def("age", () => 30);
