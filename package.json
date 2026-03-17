@@ -1,7 +1,7 @@
 {
 	"name": "testoise",
 	"version": "1.0.0",
-	"description": "RSpec-style lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive test setups inspired by Ruby on Rails.",
+	"description": "RSpec-style lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive setups for your test suites.",
 	"main": "index.js",
 	"scripts": {
 		"test": "bun run test:core && bun run test:ui && bun run test:jest",

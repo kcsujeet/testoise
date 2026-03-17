@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🐢 testoise</h1>
-  <p><strong>RSpec-style lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive test setups inspired by Ruby on Rails.</strong></p>
+  <p><strong>RSpec-style lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive setups for your test suites.</strong></p>
 
   <p>
     <a href="https://github.com/sujeetkc1/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
