@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🐢 testoise</h1>
-  <p><strong>A lightweight, global-free, TypeScript-first lazy variable library for modern JavaScript testing frameworks.</strong></p>
+  <p><strong>RSpec-style lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive test setups inspired by Ruby on Rails.</strong></p>
 
   <p>
     <a href="https://github.com/sujeetkc1/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
@@ -184,6 +184,7 @@ import { def, get } from "testoise/jest";
 
 ### `def(name: string, factory: () => any): void`
 Registers a factory function under `name`. When your test hooks into the `beforeAll` block dynamically, this variable is established for the entire current `describe` scope.
+
 
 ### `get<T>(name: string): T`
 Evaluates and returns the result of the factory named `name`. If `get()` is called multiple times inside the same test logic (`it` block), the cached return value is reused to avoid expensive recalculations. Between separate `it` tests, the cache is automatically wiped clean.
