@@ -1,15 +1,22 @@
-import { describe, expect, it, mock } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { def, get } from "../src/bun.js";
 
 describe("Bun def and get", () => {
 	def("a", () => 1);
 	def("b", () => get<number>("a") + 1);
 
-	it("evaluates lazily", () => {
-		const _factory = mock(() => 10);
-		// dynamic internal pushes are problematic for hook-based because
-		// it registers `beforeAll` inside `it`, which test runners ban.
-		// def('lazy', factory);
+	describe("evaluates lazily", () => {
+		let evalCount = 0;
+		def("lazy", () => {
+			evalCount++;
+			return 10;
+		});
+
+		it("only calls factory upon get", () => {
+			expect(evalCount).toBe(0);
+			expect(get<number>("lazy")).toBe(10);
+			expect(evalCount).toBe(1);
+		});
 	});
 
 	describe("returns values correctly", () => {

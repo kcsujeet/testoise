@@ -1,12 +1,22 @@
-import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { def, get } from "../src/jest.js";
 
 describe("Jest def and get", () => {
 	def("a", () => 1);
 	def("b", () => get<number>("a") + 1);
 
-	it("evaluates lazily", () => {
-		const _factory = jest.fn(() => 10);
+	describe("evaluates lazily", () => {
+		let evalCount = 0;
+		def("lazy", () => {
+			evalCount++;
+			return 10;
+		});
+
+		it("only calls factory upon get", () => {
+			expect(evalCount).toBe(0);
+			expect(get<number>("lazy")).toBe(10);
+			expect(evalCount).toBe(1);
+		});
 	});
 
 	describe("returns values correctly", () => {
