@@ -1,9 +1,9 @@
 ---
-name: Use testoise for Lazy Evaluation
-description: Instructions for using the testoise library in test suites, especially for React and Vue components.
+name: Lazy Evaluation
+description: Instructions for using lazy evaluation patterns in test suites, particularly for React and Vue components.
 ---
 
-# testoise Skill
+# Lazy Evaluation Skill
 
 When writing tests in this codebase or adding tests that use `testoise`, follow these guidelines:
 
@@ -11,6 +11,7 @@ When writing tests in this codebase or adding tests that use `testoise`, follow 
 2. **Lazy Evaluation**: Use `def(name, factory)` to define variables. They are evaluated only when `get(name)` is called.
 3. **Component Props**: For UI components, define props as lazy variables, and define the component or wrapper itself as a lazy variable that relies on those props.
 4. **Overrides**: In nested `describe` blocks, override just the props you need to change. Do NOT redefine the component wrapper unless necessary.
+5. **Scope Isolation**: Variables defined or overridden in a nested `describe` block are strictly scoped. Always verify that they revert to their previous values (or become undefined if not previously defined) when exiting that block.
 
 ## React Example
 ```tsx
