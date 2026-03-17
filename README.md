@@ -130,7 +130,7 @@ describe("testing a specific user", () => {
 });
 ```
 
-> For a full runnable React example, jump closely into [`examples/react-example.test.tsx`](./examples/react-example.test.tsx).
+> For a full runnable React example, jump closely into [`examples/vitest/react.test.tsx`](./examples/vitest/react.test.tsx).
 
 ### Vue Test Utils Example
 
@@ -159,7 +159,7 @@ describe("testing another user", () => {
 });
 ```
 
-> For a full runnable Vue example, check out [`examples/vue-example.test.ts`](./examples/vue-example.test.ts).
+> For a full runnable Vue example, check out [`examples/vitest/vue.test.ts`](./examples/vitest/vue.test.ts).
 
 ---
 

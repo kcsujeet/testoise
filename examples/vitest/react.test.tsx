@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import type React from "react";
 import { afterEach, describe, expect, it } from "vitest";
-import { def, get } from "../src/vitest.js";
+import { def, get } from "../../src/vitest.js";
 
 // A simple component that accepts props
 const UserProfile = ({ username, age }: { username: string; age: number }) => {
@@ -46,5 +46,27 @@ describe("React Component with testoise", () => {
 			expect(screen.getByText("Profile: Alice")).toBeDefined();
 			expect(screen.getByText("Age: 25")).toBeDefined();
 		});
+
+		describe("and it's their birthday", () => {
+			// Deeply nested override
+			def("age", () => 26);
+
+			it("renders the incremented age", () => {
+				render(get<React.ReactElement>("component"));
+				expect(screen.getByText("Profile: Alice")).toBeDefined();
+				expect(screen.getByText("Age: 26")).toBeDefined();
+			});
+		});
+
+		it("returns to previous age (25) after the birthday block", () => {
+			render(get<React.ReactElement>("component"));
+			expect(screen.getByText("Age: 25")).toBeDefined();
+		});
+	});
+
+	it("returns to default Guest profile after the inner describe blocks", () => {
+		render(get<React.ReactElement>("component"));
+		expect(screen.getByText("Profile: Guest")).toBeDefined();
+		expect(screen.getByText("Age: 30")).toBeDefined();
 	});
 });

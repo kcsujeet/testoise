@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import { defineComponent, h } from "vue";
-import { def, get } from "../src/vitest.js";
+import { def, get } from "../../src/vitest.js";
 
 // A simple Vue component
 const UserProfile = defineComponent({
@@ -47,5 +47,30 @@ describe("Vue Component Testing with testoise", () => {
 			expect(wrapper.text()).toContain("Profile: Bob");
 			expect(wrapper.text()).toContain("Age: 40");
 		});
+
+		describe("and is in a special promotion", () => {
+			// Deeply nested override
+			def("username", () => "VIP Bob");
+
+			it("renders the VIP status", () => {
+				// biome-ignore lint/suspicious/noExplicitAny: false positive
+				const wrapper = get<any>("wrapper");
+				expect(wrapper.text()).toContain("Profile: VIP Bob");
+				expect(wrapper.text()).toContain("Age: 40");
+			});
+		});
+
+		it("reverts back to original Bob profile after the promotion block", () => {
+			// biome-ignore lint/suspicious/noExplicitAny: false positive
+			const wrapper = get<any>("wrapper");
+			expect(wrapper.text()).toContain("Profile: Bob");
+		});
+	});
+
+	it("reverts to Guest profile after all logged-in blocks finish", () => {
+		// biome-ignore lint/suspicious/noExplicitAny: false positive
+		const wrapper = get<any>("wrapper");
+		expect(wrapper.text()).toContain("Profile: Guest");
+		expect(wrapper.text()).toContain("Age: 30");
 	});
 });

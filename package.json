@@ -5,9 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "bun run test:core && bun run test:ui && bun run test:jest",
-		"test:core": "bun test tests/bun.test.ts",
-		"test:ui": "bun x vitest run tests/vitest.test.ts tests/react.test.tsx tests/vue.test.ts examples/basic-example.test.ts examples/react-example.test.tsx examples/vue-example.test.ts",
-		"test:jest": "bun x jest tests/jest.test.ts",
+		"test:core": "bun test tests/bun.test.ts examples/bun/basic.test.ts",
+		"test:ui": "bun x vitest run tests/vitest.test.ts tests/react.test.tsx tests/vue.test.ts examples/vitest/basic.test.ts examples/vitest/react.test.tsx examples/vitest/vue.test.ts",
+		"test:jest": "bun x jest tests/jest.test.ts examples/jest/basic.test.ts",
 		"build": "tsup",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
