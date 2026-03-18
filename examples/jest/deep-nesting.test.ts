@@ -1,4 +1,4 @@
-import { expect, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { testoise } from "../../src/jest.js";
 
 interface MyVars {
@@ -10,28 +10,28 @@ interface MyVars {
 
 /**
  * 🐢 DEEP NESTING EXAMPLE (Jest)
- * 
+ *
  * Demonstrates type-safe nesting in Jest.
  */
-testoise<MyVars>("Jest Level 1", ({ def, get, testoise }) => {
+testoise<MyVars>("Jest Level 1", ({ def, get }) => {
 	def("firstName", () => "Jest");
 	def("lastName", () => "Root");
 	def("fullName", () => `${get("firstName")} ${get("lastName")}`);
 	def("level", () => 1);
 
-	testoise("Jest Level 2", ({ def, get, testoise }) => {
+	describe("Jest Level 2", () => {
 		def("firstName", () => "Nested");
 		def("level", () => 2);
 
-		testoise("Jest Level 3", ({ def, get }) => {
+		describe("Jest Level 3", () => {
 			def("firstName", () => "Deeply");
 			def("level", () => 3);
 
 			it("maintains types in Jest across 3 levels", () => {
-					const name = get("fullName");
-					expect(name).toBe("Deeply Root");
-					expect(get("level")).toBe(3);
-				});
+				const name = get("fullName");
+				expect(name).toBe("Deeply Root");
+				expect(get("level")).toBe(3);
+			});
 		});
 	});
 });

@@ -40,7 +40,7 @@ describe("User", () => {
 
 ## Our Solution: `testoise`
 
-`testoise` brings the power and elegance of RSpec's `let` directly into JavaScript!
+`testoise` is a modern, fully type-safe, and lightweight alternative to [`bdd-lazy-var`](https://github.com/stalniy/bdd-lazy-var). It brings the power and elegance of RSpec's `let` directly into JavaScript!
 1. **Evaluates Lazily**: Factory is only executed upon `get()`.
 2. **Caches Per Test**: Return value is cached for the duration of a single `it` block.
 3. **Overrides Cleanly**: Nested blocks override parents; dependents react automatically.
@@ -102,17 +102,17 @@ interface MyVars {
 }
 
 // 2. Use the wrapper for automatic inference 🐢🚀
-testoise<MyVars>("User Suite", ({ def, get, testoise }) => {
+testoise<MyVars>("User Suite", ({ def, get }) => {
   def("user", () => ({ name: "Alice", age: 30 }));
   def("isAdmin", () => get("user").age > 21);
 
   it("knows Alice is an adult", () => {
-    const user = get("user"); // Automatically inferred as { name: string; age: number }!
+    const user = get("user"); // Automatically inferred!
     expect(get("isAdmin")).toBe(true);
   });
 
-  // Nesting is supported and maintains types!
-  testoise("when user is underage", ({ def, get }) => {
+  // Now you can use standard describe or simplified testoise!
+  describe("when user is underage", () => {
     def("user", () => ({ name: "Bob", age: 15 }));
 
     it("knows Bob is not an admin", () => {
@@ -158,7 +158,7 @@ Registers a variable.
 Evaluates and returns the factory result. Caches per test. Supports manual type casting: `get<string>("name")`.
 
 ### `testoise<Registry>(name, suite): void`
-Suite wrapper for simplified type inference across a suite. Provides a typed `api` with its own `def`, `get`, and `testoise` methods.
+Suite wrapper for simplified type inference across a suite. Provides a typed `api` with its own `def` and `get` methods. Use standard `describe` blocks for nesting; type safety will be maintained throughout the scope.
 
 ---
 

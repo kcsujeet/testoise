@@ -17,33 +17,21 @@ export function testoise<R extends Registry>(
 	name: string,
 	fn: (api: TestoiseAPI<R>) => void,
 ) {
-	return describe(name, (suite) => {
-		const defs: Array<[string | number | symbol, () => any]> = [];
-
-		beforeAll(() => {
-			pushContext(suite);
-			for (const [n, f] of defs) {
-				defineVar(n as string, f);
-			}
-		});
-
-		afterAll(() => {
-			popContext(suite);
-		});
-
+	return describe(name, () => {
 		beforeEach(() => {
 			activateContext();
 		});
 
 		const api: TestoiseAPI<R> = {
-			def: (name, factory) => {
-				defs.push([name, factory]);
-			},
+			def: (name, factory) => def(name as string, factory),
 			get: (nameOrToken) => coreGet(nameOrToken as any),
-			testoise: (subName, subFn) => testoise<R>(subName, subFn),
 		};
 
-		fn(api);
+		if (fn.length > 0) {
+			(fn as any)(api);
+		} else {
+			(fn as any)();
+		}
 	});
 }
 

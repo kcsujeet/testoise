@@ -1,4 +1,4 @@
-import { expect, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { testoise } from "../../src/jest.js";
 
 interface MyVars {
@@ -10,7 +10,7 @@ interface MyVars {
 /**
  * 💎 ADVANCED USAGE: The Suite Wrapper
  */
-testoise<MyVars>("Jest Advanced Inference", ({ def, get, testoise }) => {
+testoise<MyVars>("Jest Advanced Inference", ({ def, get }) => {
 	def("firstName", () => "John");
 	def("lastName", () => "Doe");
 	def("fullName", () => `${get("firstName")} ${get("lastName")}`);
@@ -19,8 +19,8 @@ testoise<MyVars>("Jest Advanced Inference", ({ def, get, testoise }) => {
 		expect(get("fullName")).toBe("John Doe");
 	});
 
-	// Nested suite provided by the API callback!
-	testoise("nested with overrides", ({ def, get }) => {
+	// Use standard describe with outer def/get! 🐢💎
+	describe("nested with overrides", () => {
 		def("firstName", () => "Jane");
 
 		it("stays typed in nested blocks", () => {

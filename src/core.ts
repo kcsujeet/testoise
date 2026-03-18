@@ -108,8 +108,6 @@ export interface TestoiseAPI<R extends Registry> {
 	) => void;
 	/** Get a lazy variable's value with automatic type inference */
 	get: <K extends VarName<R>>(name: K) => InferVarType<K, R>;
-	/** Nested suite that maintains the SAME registry types 🐢💎 */
-	testoise: (name: string, fn: (api: TestoiseAPI<R>) => void) => void;
 }
 
 /**
