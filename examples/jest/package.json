@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "@swc/core": "^1.15.18",
+    "@swc/jest": "^0.2.39",
+    "@vue/vue3-jest": "^29.2.6",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-typescript": "^7.28.5",
+    "babel-jest": "^30.3.0",
+    "@jest/globals": "^30.3.0",
+    "@types/jest": "^30.0.0"
+  },
+  "scripts": {
+    "test": "jest -c jest.config.js"
+  }
+}

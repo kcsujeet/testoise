@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { def, get } from "../src/vitest.js";
+import { describe, expect, it } from "bun:test";
+import { def, get } from "../src/bun.js";
 
 describe("Vitest def and get", () => {
 	def("a", () => 1);

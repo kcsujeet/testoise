@@ -1,4 +1,8 @@
 export default {
+	testEnvironment: "jest-environment-jsdom",
+	testEnvironmentOptions: {
+		customExportConditions: ["node", "node-addons"],
+	},
 	transform: {
 		"^.+\\.(t|j)sx?$": "@swc/jest",
 	},

@@ -1,5 +1,5 @@
-import { describe, expect, it } from "@jest/globals";
-import { def, get } from "../src/jest.js";
+import { describe, expect, it } from "bun:test";
+import { def, get } from "../src/bun.js";
 
 describe("Jest def and get", () => {
 	def("a", () => 1);

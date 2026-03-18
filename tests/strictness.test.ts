@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { def, get, testoise } from "../src/vitest.js";
+import { describe, expect, it } from "bun:test";
+import { def, get, testoise } from "../src/bun.js";
 
 describe("TypeScript Inference & Strictness", () => {
 	interface MyRegistry {
@@ -30,12 +30,12 @@ describe("TypeScript Inference & Strictness", () => {
 			}).toThrow('Lazy variable "dup" is already defined in this scope');
 		});
 
-		it("allows overrides in nested scopes", () => {
+		describe("allows overrides in nested scopes", () => {
 			def("scoped", () => "outer");
 			describe("inner", () => {
 				def("scoped", () => "inner");
 				it("works", () => {
-					expect(get("scoped")).toBe("inner");
+					expect(get<string>("scoped")).toBe("inner");
 				});
 			});
 		});

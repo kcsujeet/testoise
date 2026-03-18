@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
-import type React from "react";
-import { afterEach, describe, expect, it } from "vitest";
-import { def, get } from "../src/vitest.js";
+import React from "react";
+import { afterEach, describe, expect, it } from "bun:test";
+import { def, get } from "../src/bun.js";
 
 // A simple component that accepts props
 const UserProfile = ({ username, age }: { username: string; age: number }) => {

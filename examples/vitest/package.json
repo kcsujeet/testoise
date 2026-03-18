@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "vitest": "^3.2.4",
+    "happy-dom": "^20.8.4"
+  },
+  "scripts": {
+    "test": "vitest run -c vitest.config.ts"
+  }
+}
