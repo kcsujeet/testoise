@@ -89,7 +89,7 @@ describe("User", () => {
 
 For strong type inference without manual casting, `testoise` provides a **Suite Wrapper**. This is the recommended way to use `testoise` in TypeScript projects.
 
-<img width="816" height="442" alt="Screenshot 2026-03-18 at 5 52 57 PM" src="https://github.com/user-attachments/assets/2ff82570-e9f3-461e-af22-0c37691d4871" />
+<img width="863" height="532" alt="Screenshot 2026-03-18 at 5 54 23 PM" src="https://github.com/user-attachments/assets/ca127814-7606-43de-95a0-9847a119cc65" />
 
 ```ts
 import { expect, it } from "vitest";
