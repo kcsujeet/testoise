@@ -4,7 +4,7 @@
 
   <p>
     <a href="https://github.com/kcsujeet/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
-    <a href="https://www.npmjs.com/package/testoise"><img src="https://img.shields.io/npm/v/testoise" alt="npm version" /></a>
+    <a href="https://www.npmjs.com/package/@ilamy/testoise"><img src="https://img.shields.io/npm/v/@ilamy/testoise" alt="npm version" /></a>
   </p>
 </div>
 
@@ -48,18 +48,18 @@ describe("User", () => {
 ## Installation
 
 ```bash
-bun add -d testoise # or npm install --save-dev testoise
+bun add -d @ilamy/testoise # or npm install --save-dev @ilamy/testoise
 ```
 
 ---
 
 ## Basic Usage
 
-Import `def` and `get` from your test runner's specific adapter path (`testoise/bun`, `testoise/vitest`, or `testoise/jest`).
+Import `def` and `get` from your test runner's specific adapter path (`@ilamy/testoise/bun`, `@ilamy/testoise/vitest`, or `@ilamy/testoise/jest`).
 
 ```ts
 import { describe, expect, it } from "vitest"; 
-import { def, get } from "testoise/vitest"; 
+import { def, get } from "@ilamy/testoise/vitest"; 
 
 describe("User", () => {
     // 1. Define base lazy variables
@@ -102,7 +102,7 @@ For strong type inference without manual casting, `testoise` provides a **Suite 
 
 ```ts
 import { expect, it } from "vitest";
-import { testoise } from "testoise/vitest";
+import { testoise } from "@ilamy/testoise/vitest";
 
 // 1. Define your registry
 interface MyVars {

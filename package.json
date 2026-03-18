@@ -1,5 +1,5 @@
 {
-	"name": "testoise",
+	"name": "@ilamy/testoise",
 	"version": "1.0.0",
 	"description": "RSpec inspired fully type-safe lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive.",
 	"scripts": {
