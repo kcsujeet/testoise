@@ -1,39 +1,70 @@
-import { afterAll, beforeAll, beforeEach } from "bun:test";
+/** biome-ignore-all lint/suspicious/noExplicitAny: any is used for type inference */
+import { afterAll, beforeAll, beforeEach, describe } from "bun:test";
 import {
 	activateContext,
 	get as coreGet,
 	defineVar,
 	popContext,
 	pushContext,
+	type Registry,
+	type TestoiseAPI,
 } from "./core.js";
 
-export function def<T>(name: string, factory: () => T) {
-	// 1. define the variable immediately in the current synchronous context representation
-	const register = defineVar(name, factory);
+/**
+ * A suite wrapper that provides a typed API for lazy variables.
+ */
+export function testoise<R extends Registry>(
+	name: string,
+	fn: (api: TestoiseAPI<R>) => void,
+) {
+	const suiteId = Symbol(name);
+	return describe(name, () => {
+		const defs: Array<[string | number | symbol, () => any]> = [];
 
-	// Let's do simple registration:
+		beforeAll(() => {
+			pushContext(suiteId);
+			for (const [n, f] of defs) {
+				defineVar(n as string, f);
+			}
+		});
+
+		afterAll(() => {
+			popContext(suiteId);
+		});
+
+		beforeEach(() => {
+			activateContext();
+		});
+
+		const api: TestoiseAPI<R> = {
+			def: (name, factory) => {
+				defs.push([name, factory]);
+			},
+			get: (nameOrToken) => coreGet(nameOrToken as any),
+			testoise: (subName, subFn) => testoise<R>(subName, subFn),
+		};
+
+		fn(api);
+	});
+}
+
+export function def<T>(name: string, factory: () => T): string {
 	beforeAll(() => {
-		// We register the factory AFTER pushing context for the current suite grouping.
-		// wait, we need one push per suite...
-		// If we call pushContext here, it pushes one context per variable.
-				// Is that what we want? Yes.
-		// It uses singletons per suite, so the simplest pattern is:
-		// 1 context push/pop per variable!
-		// It works exactly like a scope chain!
 		pushContext();
-		register();
+		defineVar(name, factory);
 	});
 
 	afterAll(() => {
 		popContext();
 	});
 
-	// `beforeEach` runs sequentially before tests
 	beforeEach(() => {
 		activateContext();
 	});
+
+	return name;
 }
 
-export function get<T>(name: string): T {
-	return coreGet(name);
+export function get<T = any>(name: string): T {
+	return coreGet<T>(name);
 }

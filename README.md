@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🐢 testoise</h1>
-  <p><strong>RSpec-style lazy test variables for modern JS (Bun, Vitest, Jest). <br/> Effortless, scoped, and reactive setups for your test suites.</strong></p>
+  <p><strong>RSpec inspired fully type-safe lazy test variables for modern JS (Bun, Vitest, Jest). <br/> Effortless, scoped, and reactive.</strong></p>
 
   <p>
     <a href="https://github.com/sujeetkc1/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
@@ -12,10 +12,12 @@
 
 ## The Problem
 
-When writing tests with complex setups, we frequently declare `let` variables at the top of a `describe` block and re-assign them in `beforeEach` to ensure a clean state.
+When writing tests with complex setups, we frequently declare `let` variables and re-assign them in `beforeEach`. This is repetitive and brittle.
 
 ```ts
 // ❌ The standard (but annoying) way
+import { describe, beforeEach, it } from "vitest";
+
 describe("User", () => {
     let firstName: string;
     let fullName: string;
@@ -25,68 +27,59 @@ describe("User", () => {
         fullName = `${firstName} Doe`;
     });
 
-    it("uses default name", () => { /* ... */ });
-
     describe("when first name changes", () => {
         beforeEach(() => {
-            // We have to manually re-evaluate all dependent variables too!
             firstName = "Jane";
-            fullName = `${firstName} Doe`;
+            fullName = `${firstName} Doe`; // Manual re-evaluation!
         });
         
-        it("...", () => { /* ... */ });
+        it("is updated", () => { /* ... */ });
     });
 });
 ```
 
-As your tests grow, this boilerplate becomes extremely repetitive and brittle. You end up redefining dependent variables multiple times.
-
-If you've ever worked with **Ruby on Rails**, you are likely intimately familiar with **RSpec** and its magical `let` helper, which solved this problem elegantly.
-
 ## Our Solution: `testoise`
 
-`testoise` brings the power and elegance of RSpec's `let` directly into the JavaScript testing ecosystem! It provides a structured, reactive way to define context variables that:
-1. **Evaluates Lazily**: Your variable factory is only executed when `get()` is called.
-2. **Caches Per Test**: The evaluated variable is cached for the duration of a single `it` block.
-3. **No Globals**: Explicit imports for `def` and `get` so your testing environment stays clean.
-4. **Overrides Cleanly**: Nested `describe` blocks can override a parent's `def`, and all dependent variables automatically react to the change!
+`testoise` brings the power and elegance of RSpec's `let` directly into JavaScript!
+1. **Evaluates Lazily**: Factory is only executed upon `get()`.
+2. **Caches Per Test**: Return value is cached for the duration of a single `it` block.
+3. **Overrides Cleanly**: Nested blocks override parents; dependents react automatically.
 
 ## Installation
 
 ```bash
-bun add -d testoise
-# or
-npm install --save-dev testoise
-# or
-pnpm add -D testoise
+bun add -d testoise # or npm install --save-dev testoise
 ```
+
+---
 
 ## Basic Usage
 
 Import `def` and `get` from your test runner's specific adapter path (`testoise/bun`, `testoise/vitest`, or `testoise/jest`).
 
 ```ts
-// tests/basic.test.ts
-import { describe, expect, it } from "vitest"; // or "bun:test", "@jest/globals"
+import { describe, expect, it } from "vitest"; 
 import { def, get } from "testoise/vitest"; 
 
 describe("User", () => {
+    // 1. Define base lazy variables
     def("firstName", () => "John");
     def("lastName", () => "Doe");
     
-    // Lazy variables can depend on other lazy variables!
-    def("fullName", () => `${get<string>("firstName")} ${get<string>("lastName")}`);
+    // 2. Variables can depend on other lazy variables!
+    def("fullName", () => `${get("firstName")} ${get("lastName")}`);
 
     it("uses the default name", () => {
+        // Manual type casting for those not using the suite wrapper
         expect(get<string>("fullName")).toBe("John Doe");
     });
 
     describe("when first name changes", () => {
-        // Overrides the "firstName" variable for this describe block only
+        // 3. Overrides the "firstName" variable for this describe block only
         def("firstName", () => "Jane");
 
         it("automatically updates dependent variables", () => {
-            expect(get<string>("fullName")).toBe("Jane Doe");
+            expect(get("fullName")).toBe("Jane Doe");
         });
     });
 });
@@ -94,106 +87,72 @@ describe("User", () => {
 
 ---
 
-## Magic in UI Component Testing 🧪
+## 💎 Automatic Type Inference
 
-`testoise` shines brightest when testing UI components where you want to render the same component with slightly different props across numerous test cases.
-
-Instead of typing out verbose components every time you render, you can set them once, define your component lazily as a variable, and then override just the specific props you want per test.
-
-### React Testing Library Example
-
-```tsx
-// 1. Initial defaults
-def("username", () => "Guest");
-def("age", () => 30);
-
-// 2. Define the component using the lazy variables
-def("component", () => (
-    <UserProfile username={get("username")} age={get("age")} />
-));
-
-it("renders default", () => {
-    render(get("component"));
-    // Expect "Guest"
-});
-
-describe("testing a specific user", () => {
-    // 3. Only override the props that matter for this block!
-    def("username", () => "Alice");
-    
-    // Renders automatically with the new username (Alice) and the old age (30)
-    it("renders as Alice", () => {
-        render(get("component"));
-        // Expect "Alice" 
-    }); 
-});
-```
-
-> For a full runnable React example, jump closely into [`examples/vitest/react.test.tsx`](./examples/vitest/react.test.tsx).
-
-### Vue Test Utils Example
-
-Works identically for Vue. You don't have to manually redefine your `mount(UserProfile)` wrapper every time!
+For strong type inference without manual casting, `testoise` provides a **Suite Wrapper**. This is the recommended way to use `testoise` in TypeScript projects.
 
 ```ts
-def("username", () => "Guest");
+import { expect, it } from "vitest";
+import { testoise } from "testoise/vitest";
 
-def("wrapper", () => mount(UserProfile, {
-    props: { username: get("username") }
-}));
+// 1. Define your registry
+interface MyVars {
+  user: { name: string; age: number };
+  isAdmin: boolean;
+}
 
-it("renders default", () => {
-    const wrapper = get("wrapper");
-    // Expect "Guest"
-});
+// 2. Use the wrapper for automatic inference 🐢🚀
+testoise<MyVars>("User Suite", ({ def, get, testoise }) => {
+  def("user", () => ({ name: "Alice", age: 30 }));
+  def("isAdmin", () => get("user").age > 21);
 
-describe("testing another user", () => {
-    // The wrapper will automatically use "Bob"
-    def("username", () => "Bob"); 
-    
-    it("renders overriden user", () => {
-        const wrapper = get("wrapper");
-        // Expect "Bob"
+  it("knows Alice is an adult", () => {
+    const user = get("user"); // Automatically inferred as { name: string; age: number }!
+    expect(get("isAdmin")).toBe(true);
+  });
+
+  // Nesting is supported and maintains types!
+  testoise("when user is underage", ({ def, get }) => {
+    def("user", () => ({ name: "Bob", age: 15 }));
+
+    it("knows Bob is not an admin", () => {
+      expect(get("isAdmin")).toBe(false);
     });
+  });
 });
 ```
 
-> For a full runnable Vue example, check out [`examples/vitest/vue.test.ts`](./examples/vitest/vue.test.ts).
+> [!TIP]
+> The suite wrapper ensures that your variable names and types are always in sync, preventing runtime errors and providing a premium developer experience.
 
 ---
 
-## Setup for different test runners
+## Support Matrix
 
-### Vitest
-```ts
-import { def, get } from "testoise/vitest";
-```
+| Feature | Vitest | Bun | Jest |
+| :--- | :---: | :---: | :---: |
+| Lazy Evaluation | ✅ | ✅ | ✅ |
+| Context Nesting | ✅ | ✅ | ✅ |
+| Automatic Inference | ✅ | ✅ | ✅ |
+| Redefinition Protection | ✅ | ✅ | ✅ |
+| React Support | ✅ | ⚠️ | ✅ |
+| Vue Support | ✅ | ⚠️ | ⚠️ |
 
-### Bun
-```ts
-import { def, get } from "testoise/bun";
-```
-
-### Jest
-```ts
-import { def, get } from "testoise/jest";
-```
+---
 
 ## API Reference
 
-### `def(name: string, factory: () => any): void`
-Registers a factory function under `name`. When your test hooks into the `beforeAll` block dynamically, this variable is established for the entire current `describe` scope.
-
+### `def(name: string, factory: () => T): string`
+Registers a variable.
 
 ### `get<T>(name: string): T`
-Evaluates and returns the result of the factory named `name`. If `get()` is called multiple times inside the same test logic (`it` block), the cached return value is reused to avoid expensive recalculations. Between separate `it` tests, the cache is automatically wiped clean.
+Evaluates and returns the factory result. Caches per test. Supports manual type casting: `get<string>("name")`.
 
-## Contributing
-1. Clone the repo
-2. Run `bun install`
-3. Make changes and run tests with `bun run test` (for core) and `bun x vitest` (for UI frameworks)
-4. Submit a Pull Request
+### `testoise<Registry>(name, suite): void`
+Suite wrapper for simplified type inference across a suite. Provides a typed `api` with its own `def`, `get`, and `testoise` methods.
+
+---
 
 ## License
 
-MIT License
+MIT © [Sujeet KC](https://github.com/sujeetkc1)

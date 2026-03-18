@@ -1,13 +1,13 @@
 {
 	"name": "testoise",
 	"version": "1.0.0",
-	"description": "RSpec-style lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive setups for your test suites.",
+	"description": "RSpec inspired fully type-safe lazy test variables for modern JS (Bun, Vitest, Jest). Effortless, scoped, and reactive.",
 	"main": "index.js",
 	"scripts": {
 		"test": "bun run test:core && bun run test:ui && bun run test:jest",
-		"test:core": "bun test tests/bun.test.ts examples/bun/basic.test.ts",
-		"test:ui": "bun x vitest run tests/vitest.test.ts tests/react.test.tsx tests/vue.test.ts examples/vitest/basic.test.ts examples/vitest/react.test.tsx examples/vitest/vue.test.ts",
-		"test:jest": "bun x jest tests/jest.test.ts examples/jest/basic.test.ts",
+		"test:core": "bun test tests/bun.test.ts examples/bun/*.test.ts",
+		"test:ui": "bun x vitest run tests/vitest.test.ts tests/react.test.tsx tests/vue.test.ts tests/strictness.test.ts examples/vitest/*.test.ts examples/vitest/*.test.tsx",
+		"test:jest": "bun x jest tests/jest.test.ts examples/jest/*.test.ts",
 		"build": "tsup",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
@@ -34,6 +34,10 @@
 		"./jest": {
 			"types": "./dist/jest.d.ts",
 			"import": "./dist/jest.js"
+		},
+		"./core": {
+			"types": "./dist/core.d.ts",
+			"import": "./dist/core.js"
 		}
 	},
 	"devDependencies": {

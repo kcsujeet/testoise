@@ -2,8 +2,11 @@ import { describe, expect, it } from "@jest/globals";
 import { def, get } from "../../src/jest.js";
 
 describe("Jest Basic Usage", () => {
+    // 1. Define base lazy variables
     def("firstName", () => "John");
     def("lastName", () => "Doe");
+    
+    // 2. Variables can depend on other variables!
     def("fullName", () => `${get<string>("firstName")} ${get<string>("lastName")}`);
 
     it("verifies the default full name", () => {
@@ -11,6 +14,7 @@ describe("Jest Basic Usage", () => {
     });
 
     describe("when first name is overridden", () => {
+        // 3. Nested override
         def("firstName", () => "Jane");
 
         it("automatically updates dependent variables", () => {

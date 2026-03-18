@@ -1,9 +1,28 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: false positive */
-export type Factory<T> = () => T;
+type Factory<T> = () => T;
 
-export interface Context {
+export type Registry = Record<string, any>;
+
+/**
+ * Registry-aware variable name type.
+ */
+export type VarName<R extends Registry> = keyof R extends never
+	? string
+	: keyof R | (string & {});
+
+/**
+ * Registry-aware variable type inference.
+ */
+export type InferVarType<
+	K extends string | number | symbol,
+	R extends Registry,
+	Dauphine extends Registry = any,
+> = K extends keyof R ? R[K] : K extends keyof Dauphine ? Dauphine[K] : any;
+
+interface Context {
 	factories: Map<string, Factory<any>>;
 	parent: Context | null;
+	suiteId?: any; // Used to deduplicate context pushes in some frameworks
 }
 
 const rootContext: Context = {
@@ -20,23 +39,33 @@ let activeContext: Context = rootContext;
 // Cache for evaluated variables during a single test execution
 const runtimeCache: Map<string, any> = new Map();
 
-// Called in `beforeAll` of each describe block
-export function pushContext() {
+/**
+ * Pushes a new context. If a suiteId is provided, it will first check if the
+ * current top context already belongs to that suite.
+ */
+export function pushContext(suiteId?: any) {
 	const parent = contextStack[contextStack.length - 1];
 	if (!parent) {
 		throw new Error("Context stack is empty");
 	}
+
+	if (suiteId && parent.suiteId === suiteId) {
+		return parent;
+	}
+
 	const next: Context = {
 		factories: new Map(),
 		parent,
+		suiteId,
 	};
 	contextStack.push(next);
 	return next;
 }
 
 // Called in `afterAll` of each describe block
-export function popContext() {
-	if (contextStack.length > 1) {
+export function popContext(suiteId?: any) {
+	const current = contextStack[contextStack.length - 1];
+	if (contextStack.length > 1 && (!suiteId || current?.suiteId === suiteId)) {
 		contextStack.pop();
 	}
 }
@@ -51,21 +80,46 @@ export function activateContext() {
 	runtimeCache.clear();
 }
 
-export function defineVar<T>(name: string, factory: Factory<T>) {
-	// We return a "registration" function that actually places
-	// the factory into the active scope when executed.
-	return () => {
-		const currentContext = contextStack[contextStack.length - 1];
-		if (!currentContext) {
-			throw new Error("Context stack is empty");
-		}
-		currentContext.factories.set(name, factory);
-	};
+/**
+ * Internal logic for defining a variable.
+ */
+export function defineVar<T>(name: string, factory: Factory<T>): string {
+	const currentContext = contextStack[contextStack.length - 1];
+	if (!currentContext) {
+		throw new Error("Context stack is empty");
+	}
+
+	// Runtime Strictness: Check for redefinition in the same scope
+	if (currentContext.factories.has(name)) {
+		throw new Error(
+			`Lazy variable "${name}" is already defined in this scope. Use deep nesting to override variables.`,
+		);
+	}
+
+	currentContext.factories.set(name, factory);
+	return name;
 }
 
-export function get<T>(name: string): T {
+export interface TestoiseAPI<R extends Registry> {
+	/** Define a lazy variable within this suite's registry */
+	def: <K extends VarName<R>>(
+		name: K,
+		factory: () => InferVarType<K, R>,
+	) => void;
+	/** Get a lazy variable's value with automatic type inference */
+	get: <K extends VarName<R>>(name: K) => InferVarType<K, R>;
+	/** Nested suite that maintains the SAME registry types 🐢💎 */
+	testoise: (name: string, fn: (api: TestoiseAPI<R>) => void) => void;
+}
+
+/**
+ * Returns the value of a lazy variable.
+ * Use the testoise() wrapper for automatic type inference,
+ * or provide a generic for manual casting: get<string>("name").
+ */
+export function get<T = any>(name: string): T {
 	if (runtimeCache.has(name)) {
-		return runtimeCache.get(name);
+		return runtimeCache.get(name) as T;
 	}
 
 	let ctx: Context | null = activeContext;
@@ -77,7 +131,7 @@ export function get<T>(name: string): T {
 			}
 			const value = factory();
 			runtimeCache.set(name, value);
-			return value;
+			return value as T;
 		}
 		ctx = ctx.parent;
 	}
