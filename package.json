@@ -16,7 +16,10 @@
 	},
 	"keywords": [],
 	"author": "",
-	"license": "ISC",
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
 	"type": "module",
 	"files": [
 		"dist",
