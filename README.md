@@ -88,6 +88,7 @@ describe("User", () => {
 ## Automatic Type Inference
 
 For strong type inference without manual casting, `testoise` provides a **Suite Wrapper**. This is the recommended way to use `testoise` in TypeScript projects.
+
 <img width="850" height="420" alt="Screenshot 2026-03-18 at 10 12 29 AM" src="https://github.com/user-attachments/assets/08ba7485-daa5-40e3-87f1-0a8a29cd8970" />
 
 ```ts
