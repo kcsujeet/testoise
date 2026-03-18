@@ -3,7 +3,7 @@
   <p><strong>RSpec inspired fully type-safe lazy test variables for modern JS (Bun, Vitest, Jest). <br/> Effortless, scoped, and reactive.</strong></p>
 
   <p>
-    <a href="https://github.com/sujeetkc1/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
+    <a href="https://github.com/kcsujeet/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
     <a href="https://www.npmjs.com/package/testoise"><img src="https://img.shields.io/npm/v/testoise" alt="npm version" /></a>
   </p>
 </div>
@@ -79,11 +79,20 @@ describe("User", () => {
         def("firstName", () => "Jane");
 
         it("automatically updates dependent variables", () => {
-            expect(get("fullName")).toBe("Jane Doe");
+            expect(get<string>("fullName")).toBe("Jane Doe");
         });
     });
 });
 ```
+
+---
+
+## 📂 Examples
+
+Explore our [examples/](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples) directory for practical, framework-specific setups:
+- [Bun Examples](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples/bun): Native Bun testing with DOM support.
+- [Vitest Examples](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples/vitest): Vitest integration with `happy-dom`.
+- [Jest Examples](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples/jest): Jest integration with `jsdom` and SWC.
 
 ---
 
@@ -135,8 +144,8 @@ testoise<MyVars>("User Suite", ({ def, get, testoise }) => {
 | Context Nesting | ✅ | ✅ | ✅ |
 | Automatic Inference | ✅ | ✅ | ✅ |
 | Redefinition Protection | ✅ | ✅ | ✅ |
-| React Support | ✅ | ⚠️ | ✅ |
-| Vue Support | ✅ | ⚠️ | ⚠️ |
+| React Support | ✅ | ✅ | ✅ |
+| Vue Support | ✅ | ✅ | ✅ |
 
 ---
 
@@ -155,4 +164,4 @@ Suite wrapper for simplified type inference across a suite. Provides a typed `ap
 
 ## License
 
-MIT © [Sujeet KC](https://github.com/sujeetkc1)
+MIT © [Sujeet KC](https://github.com/kcsujeet)
