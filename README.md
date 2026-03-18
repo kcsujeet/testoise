@@ -85,18 +85,7 @@ describe("User", () => {
 });
 ```
 
----
-
-## 📂 Examples
-
-Explore our [examples/](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples) directory for practical, framework-specific setups:
-- [Bun Examples](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples/bun): Native Bun testing with DOM support.
-- [Vitest Examples](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples/vitest): Vitest integration with `happy-dom`.
-- [Jest Examples](file:///Users/sujeetkc1/Desktop/get-lazy-var/examples/jest): Jest integration with `jsdom` and SWC.
-
----
-
-## 💎 Automatic Type Inference
+## Automatic Type Inference
 
 For strong type inference without manual casting, `testoise` provides a **Suite Wrapper**. This is the recommended way to use `testoise` in TypeScript projects.
 <img width="850" height="420" alt="Screenshot 2026-03-18 at 10 12 29 AM" src="https://github.com/user-attachments/assets/08ba7485-daa5-40e3-87f1-0a8a29cd8970" />
@@ -134,6 +123,15 @@ testoise<MyVars>("User Suite", ({ def, get, testoise }) => {
 
 > [!TIP]
 > The suite wrapper ensures that your variable names and types are always in sync, preventing runtime errors and providing a premium developer experience.
+
+---
+
+## Examples
+
+Explore our [examples/](https://github.com/kcsujeet/testoise/tree/main/examples) directory for practical, framework-specific setups:
+- [Bun Examples](https://github.com/kcsujeet/testoise/tree/main/examples/bun): Native Bun testing with DOM support.
+- [Vitest Examples](https://github.com/kcsujeet/testoise/tree/main/examples/vitest): Vitest integration with `happy-dom`.
+- [Jest Examples](https://github.com/kcsujeet/testoise/tree/main/examples/jest): Jest integration with `jsdom` and SWC.
 
 ---
 
