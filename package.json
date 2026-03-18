@@ -1,7 +1,7 @@
 {
 	"name": "@ilamy/testoise",
 	"version": "0.0.1",
-	"description": "Light weight and fully type-safe RSpec inspired lazy test variables for modern JS (Bun, Vitest, Jest).",
+	"description": "Lightweight and fully type-safe lazy test variables for Bun, Vitest, and Jest. Inspired by RSpec.",
 	"scripts": {
 		"test": "bun run test:core && bun run test:bun && bun run test:vitest && bun run test:jest",
 		"test:core": "bun test tests/",
