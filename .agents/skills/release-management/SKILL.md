@@ -38,4 +38,4 @@ After publishing to NPM and updating the changelog, create a GitHub release:
 
 - **Always Check CHANGELOG**: Before finalizing a task that changes logic, check if `CHANGELOG.md` needs an update.
 - **Consistency**: Ensure the version in `package.json`, `CHANGELOG.md`, and the GitHub tag are identical.
-- **Turtle Branding**: Maintain the tortoise-themed branding in release descriptions. 🐢🚀
+- **Turtle Branding**: Maintain the tortoise-themed branding in release descriptions. 🐢

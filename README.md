@@ -104,7 +104,7 @@ interface MyVars {
   isAdmin: boolean;
 }
 
-// 2. Use the wrapper for automatic inference 🐢🚀
+// 2. Use the wrapper for automatic inference 🐢
 testoise<MyVars>("User Suite", ({ def, get }) => {
   def("user", () => ({ name: "Alice", age: 30 }));
   def("isAdmin", () => get("user").age > 21);
