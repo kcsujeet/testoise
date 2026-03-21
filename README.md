@@ -93,7 +93,6 @@ describe("User", () => {
 
 For strong type inference without manual casting, `testoise` provides a **Suite Wrapper**. This is the recommended way to use `testoise` in TypeScript projects.
 
-<img width="863" height="532" alt="Screenshot 2026-03-18 at 5 54 23 PM" src="https://github.com/user-attachments/assets/ca127814-7606-43de-95a0-9847a119cc65" />
 
 ```ts
 import { expect, it } from "vitest";
@@ -125,6 +124,7 @@ testoise<MyVars>("User Suite", ({ def, get }) => {
   });
 });
 ```
+<img width="635" height="484" alt="Screenshot 2026-03-21 at 8 42 42 PM" src="https://github.com/user-attachments/assets/fa1bd45c-d9f9-46ef-9816-62cab56662dd" />
 
 > [!TIP]
 > The suite wrapper ensures that your variable names and types are always in sync, preventing runtime errors and providing a premium developer experience.
