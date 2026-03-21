@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🐢 testoise</h1>
-  <p><strong>Lightweight and fully type-safe lazy test variables for Bun, Vitest, and Jest.<br /> Inspired by RSpec.</strong></p>
+  <p><strong>Lightweight and fully type-safe lazy test variables for Bun, Vitest, Jest, and Node.js.<br /> Inspired by RSpec.</strong></p>
 
   <p>
     <a href="https://github.com/kcsujeet/testoise"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
@@ -55,14 +55,18 @@ bun add -d @ilamy/testoise # or npm install --save-dev @ilamy/testoise
 
 ## Basic Usage
 
-Import `def` and `get` from your test runner's specific adapter path (`@ilamy/testoise/bun`, `@ilamy/testoise/vitest`, or `@ilamy/testoise/jest`).
+Import `def`, `get`, and optionally `testoise` from your test runner's specific adapter path:
+
+- **Bun**: `import { def, get, testoise } from "@ilamy/testoise/bun"`
+- **Vitest**: `import { def, get, testoise } from "@ilamy/testoise/vitest"`
+- **Jest**: `import { def, get, testoise } from "@ilamy/testoise/jest"`
+- **Node.js**: `import { def, get, testoise } from "@ilamy/testoise/node"`
 
 ```ts
-import { describe, expect, it } from "vitest"; 
-import { def, get } from "@ilamy/testoise/vitest"; 
+import { describe, it } from "node:test"; 
+import { def, get } from "@ilamy/testoise/node"; 
 
 describe("User", () => {
-    // 1. Define base lazy variables
     def("firstName", () => "John");
     def("lastName", () => "Doe");
     
@@ -133,19 +137,20 @@ Explore our [examples/](https://github.com/kcsujeet/testoise/tree/main/examples)
 - [Bun Examples](https://github.com/kcsujeet/testoise/tree/main/examples/bun): Native Bun testing with DOM support.
 - [Vitest Examples](https://github.com/kcsujeet/testoise/tree/main/examples/vitest): Vitest integration with `happy-dom`.
 - [Jest Examples](https://github.com/kcsujeet/testoise/tree/main/examples/jest): Jest integration with `jsdom` and SWC.
+- [Node.js Examples](https://github.com/kcsujeet/testoise/tree/main/examples/node): Built-in Node.js test runner with `happy-dom`.
 
 ---
 
 ## Support Matrix
 
-| Feature | Vitest | Bun | Jest |
-| :--- | :---: | :---: | :---: |
-| Lazy Evaluation | ✅ | ✅ | ✅ |
-| Context Nesting | ✅ | ✅ | ✅ |
-| Automatic Inference | ✅ | ✅ | ✅ |
-| Redefinition Protection | ✅ | ✅ | ✅ |
-| React Support | ✅ | ✅ | ✅ |
-| Vue Support | ✅ | ✅ | ✅ |
+| Feature | Vitest | Bun | Jest | Node.js |
+| :--- | :---: | :---: | :---: | :---: |
+| Lazy Evaluation | ✅ | ✅ | ✅ | ✅ |
+| Context Nesting | ✅ | ✅ | ✅ | ✅ |
+| Automatic Inference | ✅ | ✅ | ✅ | ✅ |
+| Redefinition Protection | ✅ | ✅ | ✅ | ✅ |
+| React Support | ✅ | ✅ | ✅ | ✅ |
+| Vue Support | ✅ | ✅ | ✅ | ✅ |
 
 ---
 

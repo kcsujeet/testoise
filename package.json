@@ -1,13 +1,14 @@
 {
 	"name": "@ilamy/testoise",
 	"version": "0.1.0",
-	"description": "Lightweight and fully type-safe lazy test variables for Bun, Vitest, and Jest. Inspired by RSpec.",
+	"description": "Lightweight and fully type-safe lazy test variables for Bun, Vitest, Jest, and Node.js. Inspired by RSpec.",
 	"scripts": {
-		"test": "bun run test:core && bun run test:bun && bun run test:vitest && bun run test:jest",
+		"test": "bun run test:core && bun run test:bun && bun run test:vitest && bun run test:jest && bun run test:node",
 		"test:core": "bun test tests/",
 		"test:bun": "bun test examples/bun",
 		"test:vitest": "cd examples/vitest && bun run test",
 		"test:jest": "cd examples/jest && bun run test",
+		"test:node": "node --import tsx --import ./examples/node/setup-env.ts --test examples/node/*.test.{ts,tsx}",
 		"build": "tsup",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
@@ -38,6 +39,10 @@
 		"./jest": {
 			"types": "./dist/jest.d.ts",
 			"import": "./dist/jest.js"
+		},
+		"./node": {
+			"types": "./dist/node.d.ts",
+			"import": "./dist/node.js"
 		}
 	},
 	"devDependencies": {
@@ -58,6 +63,7 @@
 		"react": "^19.2.4",
 		"react-dom": "^19.2.4",
 		"tsup": "^8.5.1",
+		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"vitest": "^4.1.0",
 		"vue": "^3.5.30"
