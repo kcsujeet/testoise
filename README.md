@@ -124,7 +124,8 @@ testoise<MyVars>("User Suite", ({ def, get }) => {
   });
 });
 ```
-<img width="635" height="484" alt="Screenshot 2026-03-21 at 8 42 42 PM" src="https://github.com/user-attachments/assets/fa1bd45c-d9f9-46ef-9816-62cab56662dd" />
+
+<img width="635" height="484" alt="Screenshot 2026-03-21 at 8 42 42 PM" src="https://github.com/user-attachments/assets/2158b316-5597-4ca2-84de-de4b1f211d77" />
 
 > [!TIP]
 > The suite wrapper ensures that your variable names and types are always in sync, preventing runtime errors and providing a premium developer experience.
